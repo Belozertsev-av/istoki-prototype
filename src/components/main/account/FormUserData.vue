@@ -13,7 +13,7 @@ const props = defineProps({
 
 const isActive = ref(true)
 const newData = reactive(JSON.parse(localStorage.getItem("userData")))
-newData.phoneNumber = '+7' + newData.phoneNumber.toString()
+if (newData.phoneNumber != null) newData.phoneNumber = '+7' + newData.phoneNumber.toString()
 const regexLogin = /^[a-zA-Z0-9._-]{6,30}$/i
 const regexTel = /^[0-9+-]{12}$/i
 const regexMail = /^([A-Za-z0-9_.-])+@([A-Za-z0-9_.-])+\.([A-Za-z]{2,4})$/

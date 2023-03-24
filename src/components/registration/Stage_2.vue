@@ -21,8 +21,9 @@ export default {
 
     async function checkReserve() {
       await axios.get("http://127.0.0.1:8080/api/users/search?login=" + userData.login, {responseType: "json"})
-          .then(response => (info = JSON.stringify(response.data.length)))
-          .catch(error => error)
+          .then(function (response) {
+            isReserved.value = response.data !== "error";
+          })
 
       isReserved.value = info > 0;
     }
