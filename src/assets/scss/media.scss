@@ -1,0 +1,473 @@
+@media screen and (max-width: 1060px) {
+  .feedback {
+    &__block {
+      width: 510px;
+    }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .account {
+    &__body {
+      width: 100%;
+    }
+  }
+  .home {
+    &__sidebar {
+      width: 280px;
+    }
+  }
+  .header {
+    &__main-item {
+      padding: 5px;
+    }
+
+    &__main-logo {
+      min-width: 280px;
+    }
+  }
+  .greeting__body {
+    height: 90vh;
+  }
+  .fit {
+    &__column {
+      margin: 0 5px;
+    }
+  }
+  .lessons {
+    &__block-a,
+    &__block-b {
+      margin: 5px;
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .account {
+    &__logout {
+      display: block;
+      margin-bottom: 50px;
+    }
+
+    &__title {
+      margin-bottom: 10px;
+    }
+
+    &__avatar {
+      max-width: 200px;
+      max-height: 200px;
+    }
+
+    &__body {
+      flex-direction: column;
+      width: 100%;
+      align-items: center;
+      margin-bottom: 100px;
+    }
+
+    &__column {
+      width: 100%;
+      margin-bottom: 20px;
+
+      &:not(:last-child) {
+        width: 100%;
+      }
+    }
+  }
+  .header {
+    &__menu {
+      display: none;
+    }
+
+    &__list {
+      flex-direction: column;
+      height: 100%;
+    }
+
+    &__item {
+      padding: 10px;
+    }
+
+    &__burger {
+      cursor: pointer;
+      transition-duration: 0.3s;
+      opacity: 1;
+      display: block;
+      position: relative;
+      z-index: 4;
+      height: 30px;
+      width: 30px;
+
+      &_body {
+        display: flex;
+        position: absolute;
+        top: 50%;
+        width: 30px;
+        height: 3px;
+        background-color: #fff;
+        transition-duration: 0.3s;
+
+        &::after {
+          content: "";
+          position: absolute;
+          transition-duration: 0.3s;
+          top: 12px;
+          left: 0;
+          width: 30px;
+          height: 3px;
+          background-color: #fff;
+        }
+
+        &::before {
+          content: "";
+          position: absolute;
+          transition-duration: 0.3s;
+          top: -12px;
+          left: 0;
+          width: 30px;
+          height: 3px;
+          background-color: #fff;
+        }
+      }
+    }
+
+    &__main-menu {
+      justify-content: center;
+    }
+
+    &__main-logo {
+      display: none;
+    }
+  }
+  .greeting {
+    &__body {
+      height: 100vh;
+      padding: 0 20px;
+      margin: 0 auto;
+      align-items: center;
+      text-align: center;
+    }
+
+    &__title {
+      padding-top: 90px;
+    }
+
+    &__subtitle {
+      padding: 0 0 20px 0;
+    }
+
+    &__block {
+      padding: 0;
+    }
+
+    &__robot {
+      z-index: 2;
+      position: static;
+      width: 400px;
+    }
+  }
+  .languages {
+    &__item {
+      padding: 7px 15px;
+      margin: 0 5px;
+      font-size: 14px;
+    }
+  }
+  .unique {
+    &__body {
+      padding: 15px 20px 50px 20px;
+    }
+
+    &__block {
+      flex-direction: column-reverse;
+    }
+
+    &__img {
+      padding-top: 20px;
+      margin: 0 auto;
+    }
+
+    &__text {
+      padding: 0 5px;
+    }
+  }
+  .fit {
+    &__textbody {
+      height: fit-content;
+    }
+  }
+  .lessons {
+    &__table {
+      flex-direction: column;
+    }
+
+    &__row {
+      flex-direction: column;
+      align-items: center;
+      margin: 0 10%;
+    }
+
+    &__block-a,
+    &__block-b {
+      flex-direction: row-reverse;
+      width: fit-content;
+    }
+  }
+  .reverse-row {
+    flex-direction: column-reverse;
+  }
+  .footer {
+    &__body {
+      flex-wrap: wrap;
+      padding: 40px 25px;
+    }
+
+    &__column {
+      padding-bottom: 40px;
+    }
+  }
+  .home {
+    &__sidebar {
+      display: none;
+    }
+
+    &__main {
+      padding: 30px;
+    }
+  }
+  .minimize {
+    display: none;
+  }
+  .nav-panel {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .nav {
+    &__item {
+      .icon__svg {
+        height: 30px;
+        width: 30px;
+      }
+    }
+  }
+  .header {
+    &__icon {
+      img {
+        height: 30px;
+      }
+    }
+  }
+  .home {
+    &__main {
+      padding: 10px;
+    }
+  }
+  .main {
+    &__item {
+      margin-bottom: 10px;
+    }
+
+    &__title {
+      padding: 5px;
+    }
+  }
+  .flag {
+    img {
+      height: 30px;
+      width: 55px;
+    }
+  }
+  .fit {
+    &__title {
+      padding-bottom: 20px;
+    }
+
+    &__block {
+      flex-direction: column;
+    }
+
+    &__column {
+      margin: 5px auto;
+      height: 300px;
+    }
+
+    &__img {
+      height: 50%;
+    }
+  }
+  .lessons {
+    padding-top: 20px;
+
+    &__title {
+      padding-bottom: 20px;
+    }
+
+    &__row {
+      margin: 0 5px;
+    }
+  }
+  .about {
+    &__title {
+      padding-bottom: 20px;
+    }
+
+    &__body {
+      flex-direction: column;
+    }
+
+    &__column {
+      flex-direction: row;
+      padding: 20px 0;
+    }
+
+    &__blue-block {
+      width: 50%;
+      padding: 20px 20px;
+    }
+
+    &__yellow-block {
+      width: 50%;
+    }
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .feedback {
+    &__body {
+      width: 100%;
+    }
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .nav {
+    &__body {
+      padding: 15px 10px;
+    }
+
+    &__label {
+      display: none;
+    }
+  }
+  .main {
+
+    &__item {
+      margin-bottom: 0;
+    }
+
+    &__subitem {
+      margin: 10px;
+    }
+  }
+  .reg {
+    &__body {
+      min-width: 100%;
+    }
+  }
+  .icon {
+    height: 60px;
+    width: 60px;
+  }
+  .icon-big {
+    height: 100px;
+    width: 100px;
+  }
+  .mini {
+    height: 10px;
+
+    &:after {
+      height: 10px;
+    }
+  }
+  .header {
+    &__main-item {
+      padding: 0;
+    }
+  }
+  .greeting {
+    &__body {
+      padding: 0;
+    }
+
+    &__robot {
+      width: 250px;
+    }
+  }
+  .unique {
+    &::after {
+      height: 20px;
+      bottom: -20px;
+    }
+  }
+  .fit {
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    &__textbody {
+      padding: 0 5px;
+    }
+  }
+  .lessons {
+    padding-top: 10px;
+    padding-bottom: 50px;
+  }
+  .about {
+    padding-top: 10px;
+    padding-bottom: 20px;
+
+    &__title {
+      padding-bottom: 10px;
+    }
+
+    &__column {
+      padding-bottom: 10px;
+    }
+
+    &::after {
+      height: 20px;
+      bottom: -20px;
+    }
+
+    &::before {
+      height: 20px;
+      top: -20px;
+    }
+  }
+  .join {
+    padding: 40px 0 0 0;
+  }
+  .footer {
+    &__body {
+      flex-wrap: nowrap;
+      flex-direction: column;
+      padding: 40px 25px;
+      text-align: center;
+      align-items: center;
+    }
+
+    &__column {
+      padding-bottom: 40px;
+    }
+  }
+  .languages {
+    &__item {
+      padding: 5px 10px;
+      margin: 0 5px;
+    }
+  }
+  .about {
+    &__column {
+      flex-direction: column;
+    }
+
+    &__blue-block {
+      width: 100%;
+    }
+
+    &__yellow-block {
+      width: 100%;
+    }
+  }
+}
