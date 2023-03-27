@@ -17,10 +17,10 @@ const feedback = reactive({
   feedbackId: 0,
   feedbackMark: 0,
   feedbackUser: {
-    avatar: "",
-    firstName: "",
-    id: 0,
-    lastName: ""
+    avatar: props.userData.avatar,
+    firstName: props.userData.fName,
+    id: props.userData.id,
+    lastName: props.userData.lName
   }
 })
 const isLoaded = ref(false)
@@ -39,10 +39,12 @@ onMounted(async () => {
         isLoaded.value = false
       })
 })
-
+const onMouseEnter = () => {
+  return true
+}
 const refreshFeedback = async () => {
   if (feedback.feedbackBody !== "" && feedback.feedbackMark !== 0) {
-    if (isLoaded === false) {
+    if (isLoaded.value === false) {
       await axios.post(api.URL + "/api/feedback", feedback, {
         headers: {
           "content-type": "application/json",
@@ -88,10 +90,11 @@ const refreshFeedback = async () => {
               class="circle"
               v-model="feedback.feedbackMark"
               v-for="i of 5"
-              :id="'star-' + i"
+              :key="'star-' + i"
               name="rating"
               :value="6 - i"
-              :class="{colorize: onmouseenter}"/>
+              onmouseenter="onMouseEnter"
+              :class="{colorize: onMouseEnter}"/>
           <div class="account__label on-blue">Оценка:</div>
         </div>
         <textarea class="account__feedback-text"
