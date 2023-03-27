@@ -1,6 +1,6 @@
 <script>
 
-import {useUserData} from "../../stores/store.js";
+import {useAPI, useUserData} from "../../stores/store.js";
 import {ref, watchEffect} from "vue";
 import axios from "axios";
 
@@ -8,6 +8,7 @@ export default {
   name: "Stage_2",
   emits: ['setStage'],
   setup(props, context) {
+    const api = useAPI()
     const userData = useUserData()
     const r_password = ref('')
     let info = ref(0)
@@ -20,7 +21,7 @@ export default {
     let isReserved = ref(false)
 
     async function checkReserve() {
-      await axios.get("http://127.0.0.1:8080/api/users/search?login=" + userData.login, {responseType: "json"})
+      await axios.get(api.URL + "/api/users/search?login=" + userData.login, {responseType: "json"})
           .then(function (response) {
             isReserved.value = response.data !== "error";
           })

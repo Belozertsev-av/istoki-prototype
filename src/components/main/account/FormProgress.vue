@@ -1,6 +1,7 @@
 <script setup>
 import {onMounted, onUpdated, reactive} from "vue";
 import axios from "axios";
+import {useAPI} from "../../../stores/store.js";
 
 name = "FormProgress"
 
@@ -10,11 +11,12 @@ const props = defineProps({
     required: true
   }
 })
+const api = useAPI()
 const userIdiomas = reactive([])
 
 onMounted(async () => {
   for (let i = 0; i < props.userData.userLanguages.length; i++) {
-    await axios.get("http://localhost:8080/api/languages/" + props.userData.userLanguages[i].scoresLanguage + "?list=false").then(
+    await axios.get(api.URL + "/api/languages/" + props.userData.userLanguages[i].scoresLanguage + "?list=false").then(
         function (response) {
           userIdiomas.push({
             languageFlag: response.data.languageFlag,

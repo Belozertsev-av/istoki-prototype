@@ -26,9 +26,8 @@ export const userRegPages = defineStore('RegPages', {
 
 })
 
-export const useDeviceParams = defineStore('deviceParams', {
+export const useAPI = defineStore('deviceParams', {
     state: () => ({
-        screenWidth: document.documentElement.clientWidth,
-        screenHeight: document.documentElement.offsetHeight
+        URL: "http://127.0.0.1:8080"
     })
 })

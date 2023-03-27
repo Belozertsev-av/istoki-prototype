@@ -1,6 +1,7 @@
 <script setup>
 import {reactive, ref} from "vue";
 import axios from "axios";
+import {useAPI} from "../../../stores/store.js";
 
 name = "FormUserData"
 
@@ -10,7 +11,7 @@ const props = defineProps({
     required: true
   }
 })
-
+const api = useAPI()
 const isActive = ref(true)
 const newData = reactive(JSON.parse(localStorage.getItem("userData")))
 if (newData.phoneNumber != null) newData.phoneNumber = '+7' + newData.phoneNumber.toString()
@@ -87,7 +88,7 @@ const isCheck = (field) => {
 }
 const isReserved = async (field) => {
   if (field === "login") {
-    await axios.get("http://127.0.0.1:8080/api/users/search?login=" + newData.login, {responseType: "json"})
+    await axios.get(api.URL + "/api/users/search?login=" + newData.login, {responseType: "json"})
         .then(function (response) {
           if (response.data !== "error" && newData.login.toLowerCase() !== props.userData.login.toLowerCase()) {
             alert.reservedLogin = "Такой логин уже занят"
@@ -99,7 +100,7 @@ const isReserved = async (field) => {
           }
         })
   } else if (field === "mail") {
-    await axios.get("http://127.0.0.1:8080/api/users/search?mail=" + newData.mail, {responseType: "json"})
+    await axios.get(api.URL + "/api/users/search?mail=" + newData.mail, {responseType: "json"})
         .then(function (response) {
           if (response.data !== "error" && newData.mail !== props.userData.mail) {
             alert.reservedMail = "Адрес электронной почты уже занят"
@@ -111,7 +112,7 @@ const isReserved = async (field) => {
           }
         })
   } else if (field === "tel") {
-    await axios.get("http://127.0.0.1:8080/api/users/search?tel=" + newData.phoneNumber.toString().substring(2), {responseType: "json"})
+    await axios.get(api.URL + "/api/users/search?tel=" + newData.phoneNumber.toString().substring(2), {responseType: "json"})
         .then(function (response) {
           if (response.data !== "error" && newData.phoneNumber.substring(2) !== props.userData.phoneNumber.toString()) {
             alert.reservedTel = "Такой телефон уже занят"
@@ -130,7 +131,7 @@ const isReserved = async (field) => {
 const sendUpData = async () => {
   if (isActive) {
     newData.phoneNumber = newData.phoneNumber.substring(2)
-    await axios.patch("http://127.0.0.1:8080/api/users/" + props.userData.id, newData, {
+    await axios.patch(api.URL + "/api/users/" + props.userData.id, newData, {
       headers: {
         "content-type": "application/json",
       }

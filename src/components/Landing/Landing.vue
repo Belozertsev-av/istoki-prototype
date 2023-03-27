@@ -1,6 +1,6 @@
 <script setup>
-//import '../../assets/js/jquery-3.6.1.js';
-//import '../../assets/js/script.js';
+import '../../assets/js/jquery-3.6.1.js';
+import '../../assets/js/script.js';
 import {onMounted} from "vue";
 import router from "../../router/index.js";
 

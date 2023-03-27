@@ -7,18 +7,20 @@ import Stage_4 from "../registration/Stage_4.vue";
 import HomeBody from "./HomeBody.vue";
 import NavigationPanel from "./NavigationPanel.vue";
 import HeaderMain from "./Header-main.vue";
+import {useAPI} from "../../stores/store.js";
 
 export default {
   name: "Home",
   components: {NavigationPanel, HomeBody, Stage_4, HeaderMain},
   setup(props, context) {
+    const api = useAPI()
     const hasLanguages = ref(false)
     let userData = reactive({})
     let currLang = reactive({})
 
     onMounted(async () => {
       try {
-        await axios.get("http://localhost:8080/api/users/data", {
+        await axios.get(api.URL + "/api/users/data", {
           headers: {
             'authorization': localStorage.getItem("jwt")
           }
@@ -36,7 +38,7 @@ export default {
               }))
               userData = JSON.parse(localStorage.getItem("userData"))
               if (userData.userLanguages.length > 0) {
-                axios.get("http://localhost:8080/api/languages/" + userData.userLanguages[0].scoresLanguage + "?list=false")
+                axios.get(api.URL + "/api/languages/" + userData.userLanguages[0].scoresLanguage + "?list=false")
                     .then(
                         function (response) {
                           localStorage.setItem("currLang", JSON.stringify({
@@ -49,7 +51,7 @@ export default {
                           }))
                           currLang = JSON.parse(localStorage.getItem("currLang"))
                           if (JSON.parse(localStorage.getItem("currLang"))) {
-                            axios.get("http://localhost:8080/api/lessons?languageId=" + currLang.languageId)
+                            axios.get(api.URL + "/api/lessons?languageId=" + currLang.languageId)
                                 .then(
                                     function (response) {
                                       currLang.languageLessons = response.data

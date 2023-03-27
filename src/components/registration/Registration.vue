@@ -45,7 +45,8 @@ export default {
 @import "../../assets/scss/commonStyle.scss";
 
 .main {
-  padding-top: 70px;
+  padding-top: 15vh;
+  padding-bottom: 50vh;
 }
 
 @import "../../assets/scss/media.scss";

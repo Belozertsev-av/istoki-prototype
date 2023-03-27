@@ -2,7 +2,7 @@
 
 
 import {reactive, ref} from "vue";
-import {useUserData} from "../stores/store.js";
+import {useAPI, useUserData} from "../stores/store.js";
 import axios from "axios";
 import router from "../router/index.js";
 import Header from "./Landing/Header.vue";
@@ -13,14 +13,15 @@ export default {
 
   setup() {
     const userData = useUserData()
+    const api = useAPI()
     const callback = ref({})
     const inputData = reactive({
       login: '',
       password: ''
     })
-
+    console.log()
     const login = async () => {
-      await axios.post("http://localhost:8080/api/users/login", inputData, {withCredentials: true})
+      await axios.post(api.URL + "/api/users/login", inputData, {withCredentials: true})
           .then(
               function (response) {
                 localStorage.setItem('jwt', response.data)
@@ -81,7 +82,8 @@ export default {
 @import "../assets/scss/commonStyle.scss";
 
 .main {
-  padding-top: 70px;
+  padding-top: 15vh;
+  padding-bottom: 50vh;
 }
 
 .reg {
