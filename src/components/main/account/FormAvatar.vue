@@ -1,6 +1,7 @@
 <script setup>
 import {reactive, ref} from "vue";
 import axios from "axios";
+import {useAPI} from "../../../stores/store.js";
 
 name = "FormAvatar"
 
@@ -10,9 +11,9 @@ const props = defineProps({
     required: true
   }
 })
-
-const userData = reactive(props.userData)
-const isDragStarted = ref(false)
+const api = useAPI()
+let userData = reactive(props.userData)
+let isDragStarted = ref(false)
 const photo = ref(null)
 
 
@@ -25,22 +26,23 @@ const sendPhoto = async (event) => {
   isDragStarted.value = false
 
 
-  await axios.post("http://127.0.0.1:8080/api/files?currAvatar=" + userData.avatar, formData, {
+  await axios.post(api.URL + "/api/files?currAvatar=" + userData.avatar, formData, {
     withCredentials: true, headers: {
       "content-type": "multipart/form-data",
     }
   }).then(
       async function (response) {
-        await axios.patch("http://127.0.0.1:8080/api/users/" + userData.id, {
+        await axios.patch(api.URL + "/api/users/" + userData.id, {
           "avatar": response.data,
-          "userLanguages": userData.userLanguages
+          "userLanguages": userData.userLanguages,
+          "login": userData.login
         }, {
           headers: {
             "content-type": "application/json",
           }
         }).then(
             async function () {
-              await axios.get("http://localhost:8080/api/users/data", {
+              await axios.get(api.URL + "/api/users/data", {
                 headers: {
                   'authorization': localStorage.getItem("jwt")
                 }
@@ -56,7 +58,7 @@ const sendPhoto = async (event) => {
                       userLanguages: response.data.userLanguages,
                       avatar: response.data.avatar,
                     }))
-                    userData.value = JSON.parse(localStorage.getItem("userData"))
+                    userData = JSON.parse(localStorage.getItem("userData"))
                   }).catch()
               location.reload()
             }

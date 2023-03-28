@@ -4,12 +4,25 @@
       width: 510px;
     }
   }
+  .account {
+    &__column {
+      &:first-child {
+        width: 45%;
+      }
+    }
+  }
 }
 
 @media screen and (max-width: 991px) {
   .account {
     &__body {
       width: 100%;
+    }
+
+    &__column {
+      &:first-child {
+        width: 50%;
+      }
     }
   }
   .home {
@@ -68,6 +81,12 @@
     &__column {
       width: 100%;
       margin-bottom: 20px;
+
+      &__column {
+        &:first-child {
+          width: 100%;
+        }
+      }
 
       &:not(:last-child) {
         width: 100%;

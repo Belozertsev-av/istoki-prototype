@@ -1,5 +1,5 @@
 <script>
-import {useUserData} from "../../stores/store.js";
+import {useAPI, useUserData} from "../../stores/store.js";
 import {ref, watchEffect} from "vue";
 import axios from "axios";
 import router from "../../router/index.js";
@@ -8,6 +8,7 @@ export default {
   name: "Stage_3",
   emits: ['setStage'],
   setup(props, context) {
+    const api = useAPI()
     const userData = useUserData()
     let info = ref(0)
     const regexTel = /^[0-9+-]{11,14}$/i
@@ -17,20 +18,20 @@ export default {
     let isReserved = ref(false)
 
     async function checkReserve() {
-      await axios.get("http://127.0.0.1:8080/api/users/search?tel=" + userData.phoneNumber, {responseType: "json"})
-          .then(response => (info = JSON.stringify(response.data.length)))
-          .catch(error => error)
-      isReserved.value = info > 0;
+      await axios.get(api.URL + "/api/users/search?tel=" + userData.phoneNumber, {responseType: "json"})
+          .then(function (response) {
+            isReserved.value = (response.data !== "error");
+          })
     }
 
     async function registerAndContinue() {
-      await axios.post("http://127.0.0.1:8080/api/users", userData, {
+      await axios.post(api.URL + "/api/users", userData, {
         headers: {
           "content-type": "application/json",
         }
       })
           .then(async function () {
-            await axios.post("http://localhost:8080/api/users/login", userData, {withCredentials: true})
+            await axios.post(api.URL + "/api/users/login", userData, {withCredentials: true})
                 .then(
                     function (response) {
                       localStorage.setItem('jwt', response.data)

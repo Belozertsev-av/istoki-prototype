@@ -58,7 +58,6 @@ export default {
   components: {SVG_sprites},
   props: ['callback'],
   setup(props, context) {
-    ;
     return {}
   }
 }

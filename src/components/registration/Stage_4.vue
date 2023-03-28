@@ -3,22 +3,24 @@
 import axios from "axios";
 import {onMounted, reactive, ref} from "vue";
 import router from "../../router/index.js";
+import {useAPI} from "../../stores/store.js";
 
 export default {
   name: "Stage_4",
   setup(props, context) {
+    const api = useAPI()
     const languages = ref([])
 
 
     onMounted(async () => {
-      await axios.get("http://127.0.0.1:8080/api/languages?list=true")
+      await axios.get(api.URL + "/api/languages?list=true")
           .then(response => languages.value = response.data)
           .catch(error => console.log(error))
     })
 
     async function selectLang(langId) {
       const userData = reactive(JSON.parse(localStorage.getItem("userData")))
-      await axios.put("http://localhost:8080/api/users/" + userData.id + "/add?language=" + langId, null, {
+      await axios.put(api.URL + "/api/users/" + userData.id + "/add?language=" + langId, null, {
         headers: {
           "content-type": "application/json",
         }

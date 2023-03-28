@@ -1,10 +1,10 @@
 <script setup>
 import axios from "axios";
 import {onMounted, reactive, ref} from "vue";
+import {useAPI} from "../../../stores/store.js";
 
 name = "FormFeedback"
-
-
+const api = useAPI()
 const props = defineProps({
   userData: {
     type: Object,
@@ -17,17 +17,17 @@ const feedback = reactive({
   feedbackId: 0,
   feedbackMark: 0,
   feedbackUser: {
-    avatar: "",
-    firstName: "",
-    id: 0,
-    lastName: ""
+    avatar: props.userData.avatar,
+    firstName: props.userData.fName,
+    id: props.userData.id,
+    lastName: props.userData.lName
   }
 })
 const isLoaded = ref(false)
 const alert = ref("")
 
 onMounted(async () => {
-  await axios.get("http://127.0.0.1:8080/api/feedback/" + props.userData.id)
+  await axios.get(api.URL + "/api/feedback/" + props.userData.id)
       .then(function (response) {
         feedback.feedbackBody = response.data.feedbackBody
         feedback.feedbackDate = response.data.feedbackDate
@@ -39,12 +39,13 @@ onMounted(async () => {
         isLoaded.value = false
       })
 })
-
-
+const onMouseEnter = () => {
+  return true
+}
 const refreshFeedback = async () => {
   if (feedback.feedbackBody !== "" && feedback.feedbackMark !== 0) {
-    if (isLoaded === false) {
-      await axios.post("http://127.0.0.1:8080/api/feedback", feedback, {
+    if (isLoaded.value === false) {
+      await axios.post(api.URL + "/api/feedback", feedback, {
         headers: {
           "content-type": "application/json",
         }
@@ -56,7 +57,7 @@ const refreshFeedback = async () => {
           })
     } else {
       feedback.feedbackDate = Date.now()
-      await axios.patch("http://127.0.0.1:8080/api/feedback/" + feedback.feedbackUser.id, feedback, {
+      await axios.patch(api.URL + "/api/feedback/" + feedback.feedbackUser.id, feedback, {
         headers: {
           "content-type": "application/json",
         }
@@ -72,7 +73,6 @@ const refreshFeedback = async () => {
   }
 
 }
-
 </script>
 
 <template>
@@ -90,10 +90,11 @@ const refreshFeedback = async () => {
               class="circle"
               v-model="feedback.feedbackMark"
               v-for="i of 5"
-              :id="'star-' + i"
+              :key="'star-' + i"
               name="rating"
               :value="6 - i"
-              :class="{colorize: onmouseenter}"/>
+              onmouseenter="onMouseEnter"
+              :class="{colorize: onMouseEnter}"/>
           <div class="account__label on-blue">Оценка:</div>
         </div>
         <textarea class="account__feedback-text"

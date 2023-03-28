@@ -2,11 +2,13 @@
 import {reactive, ref} from "vue";
 import axios from "axios";
 import SVG_sprites from "../SVG_sprites.vue";
+import {useAPI} from "../../stores/store.js";
 
 export default {
   name: "HomeBody",
   components: {SVG_sprites},
   setup() {
+    const api = useAPI()
     const userData = reactive(JSON.parse(localStorage.getItem("userData")))
     const currLang = reactive(JSON.parse(localStorage.getItem("currLang")))
     const currExc = reactive({
@@ -19,7 +21,7 @@ export default {
 
     const checked = ref(null)
     const isClicked = async (i) => {
-      await axios.get("http://localhost:8080/api/exercises?lessonId=" + i.lessonId).then(
+      await axios.get(api.URL + "/api/exercises?lessonId=" + i.lessonId).then(
           function (response) {
             currExc.excId = response.data.excId
             currExc.excTitle = response.data.excTitle

@@ -3,10 +3,12 @@ import Footer from "./Footer.vue";
 import Header from "./Header.vue";
 import {onMounted, ref} from "vue";
 import axios from "axios";
+import {useAPI} from "../../stores/store.js";
 
 export default {
   components: {Header, Footer},
   setup() {
+    const api = useAPI()
     const feedback = ref([
       {
         feedbackId: 0,
@@ -22,7 +24,7 @@ export default {
       }
     ])
     onMounted(async () => {
-      await axios.get("http://127.0.0.1:8080/api/feedback?page=0")
+      await axios.get(api.URL + "/api/feedback?page=0")
           .then(function (response) {
             feedback.value = response.data
           })

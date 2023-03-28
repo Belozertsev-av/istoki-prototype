@@ -1,4 +1,9 @@
 <script setup>
+import FormField from "../../common/FormField.vue";
+import {useAPI, useRegex} from "../../../stores/store.js";
+import {reactive, ref} from "vue";
+import axios from "axios";
+
 name = "FormPass"
 
 const props = defineProps({
@@ -7,26 +12,54 @@ const props = defineProps({
     required: true
   }
 })
+const api = useAPI()
+const regex = useRegex()
+const newData = reactive(JSON.parse(localStorage.getItem("userData")))
+
+const callback = ref('')
+const isActive = ref(false)
+
+const sendUpPass = async () => {
+  if (isActive) {
+    await axios.patch(api.URL + "/api/users/" + props.userData.id + "?pass=true", newData, {
+      withCredentials: true,
+      headers: {'content-type': 'application/json'}
+    })
+        .then(function (response) {
+          if (response.status === 200)
+            callback.value = response.data
+        }).catch(
+            function (error) {
+              callback.value = "Произошла ошибка " + error.response.status + " при обновлении данных"
+            }
+        )
+  }
+}
 </script>
 
 <template>
   <form v-on:submit.prevent="sendUpPass" class="account__form">
     <div class="account__block">
-      <div class="account__subtitle subtitle">Логин и пароль</div>
-      <div class="account__field">
-        <div class="account__label">Старый пароль:</div>
-        <input class="account__password field" v-model="userData.password" type="password" placeholder="*****">
-      </div>
-      <div class="account__field">
-        <div class="account__label">Новый пароль:</div>
-        <input class="account__password field" v-model="userData.password" type="password"
-               placeholder="*****">
-      </div>
+      <div class="account__subtitle subtitle">Пароль</div>
+      <FormField :form="{
+                        name: 'password',
+                        field: 'Новый пароль',
+                        type: 'password',
+                        value: props.userData.password,
+                        placeholder: 'Введите новый пароль',
+                        regex: regex.regexPassword,
+                        alert: regex.alertPassword
+                        }"
+                 @password-validate="(arg) => newData.password = arg"
+                 @password-check="(arg) => isActive = arg"></FormField>
+      <input type="submit"
+             value="Изменить"
+             :disabled="!isActive"
+             :class="{disabled: !isActive}"
+             class="account__button button">
     </div>
-    <input type="submit"
-           value="Изменить"
-           class="account__button button">
   </form>
+  <div class="form__text" v-if="callback !== ''"> {{ callback }}</div>
 </template>
 
 <style lang="scss" scoped>
@@ -51,14 +84,6 @@ const props = defineProps({
     margin-bottom: 10px;
   }
 
-  &__field {
-    width: 100%;
-  }
-
-  &__label {
-    padding: 5px 5px;
-  }
-
   &__button {
     background-color: $primaryColor;
     color: #fff;
@@ -68,13 +93,13 @@ const props = defineProps({
   }
 }
 
-.reg__text {
-  padding: 10px;
-  margin-bottom: 10px;
-  max-width: 450px;
-  text-align: center;
-  border: 2px solid $primaryGrey;
-  border-radius: $radius;
+.disabled {
+  background-color: #9a9a9a;
+
+  &:active, &:hover {
+    transform: none;
+    background-color: #9a9a9a;
+  }
 }
 
 @import "src/assets/scss/media";

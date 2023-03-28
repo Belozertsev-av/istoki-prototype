@@ -4,12 +4,10 @@ import {ref} from "vue";
 import Footer from "./components/Landing/Footer.vue";
 import HeaderMain from "./components/main/Header-main.vue";
 import NavigationPanel from "./components/main/NavigationPanel.vue";
-import {useDeviceParams} from "./stores/store.js";
 
 name = "App"
 
 let isLoggedIn = ref(false)
-const deviceParams = useDeviceParams()
 const callback = ""
 </script>
 
