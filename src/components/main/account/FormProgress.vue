@@ -1,7 +1,8 @@
 <script setup>
-import {onMounted, onUpdated, reactive} from "vue";
+import {onMounted, reactive} from "vue";
 import axios from "axios";
 import {useAPI} from "../../../stores/store.js";
+import ProgressBar from "../../common/ProgressBar.vue";
 
 name = "FormProgress"
 
@@ -39,9 +40,7 @@ onMounted(async () => {
       <div class="account__flag">
         <img :src="'/src/assets/img/'+ i.languageFlag" alt="flag">
       </div>
-      <div class="account__progress-bar">
-        <div class="account__progress"></div>
-      </div>
+      <ProgressBar :total="i.languageLessonsLength" :percent="i.languageScores"></ProgressBar>
       <div class="account__label">{{
           i.languageScores
         }}/{{ i.languageLessonsLength }}
@@ -77,21 +76,6 @@ onMounted(async () => {
     align-items: center;
     font-weight: 700;
     padding: 5px 0;
-  }
-
-  &__progress-bar {
-    background-color: $primaryGrey;
-    border-radius: $radius;
-    width: 100%;
-    margin: 0 20px;
-    height: 20px;
-  }
-
-  &__progress {
-    background-color: $primaryGold;
-    border-radius: $radius;
-    height: 20px;
-    width: 50%;
   }
 
   &__flag {

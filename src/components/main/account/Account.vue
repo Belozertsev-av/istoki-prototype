@@ -6,11 +6,13 @@ import FormPass from "./FormPass.vue";
 import FormAvatar from "./FormAvatar.vue";
 import FormFeedback from "./FormFeedback.vue";
 import FormProgress from "./FormProgress.vue";
+import {useAPI} from "../../../stores/store.js";
 
 name = "Account"
 
+const api = useAPI()
 const emit = defineEmits(["loggedIn", "logout"])
-const userData = reactive(JSON.parse(localStorage.getItem("userData")))
+let userData = reactive(JSON.parse(localStorage.getItem("userData")))
 
 
 onMounted(() => {
@@ -39,7 +41,7 @@ const logout = () => {
           <FormPass :user-data="userData"></FormPass>
         </div>
         <div class="account__column">
-          <div class="account__title title">Настройки</div>
+          <div class="account__title title">Дополнительно</div>
           <FormFeedback :user-data="userData"></FormFeedback>
           <FormProgress :user-data="userData"></FormProgress>
         </div>
@@ -77,6 +79,10 @@ const logout = () => {
     display: flex;
     flex-direction: column;
     margin: 0 5px 100px 0;
+
+    &:first-child {
+      width: 35%;
+    }
   }
 
   &__title {

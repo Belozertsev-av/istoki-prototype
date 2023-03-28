@@ -12,7 +12,7 @@ const props = defineProps({
   }
 })
 const api = useAPI()
-const userData = reactive(props.userData)
+let userData = reactive(props.userData)
 let isDragStarted = ref(false)
 const photo = ref(null)
 
@@ -34,7 +34,8 @@ const sendPhoto = async (event) => {
       async function (response) {
         await axios.patch(api.URL + "/api/users/" + userData.id, {
           "avatar": response.data,
-          "userLanguages": userData.userLanguages
+          "userLanguages": userData.userLanguages,
+          "login": userData.login
         }, {
           headers: {
             "content-type": "application/json",
@@ -57,7 +58,7 @@ const sendPhoto = async (event) => {
                       userLanguages: response.data.userLanguages,
                       avatar: response.data.avatar,
                     }))
-                    userData.value = JSON.parse(localStorage.getItem("userData"))
+                    userData = JSON.parse(localStorage.getItem("userData"))
                   }).catch()
               location.reload()
             }

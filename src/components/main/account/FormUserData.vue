@@ -2,10 +2,11 @@
 import {reactive, ref, watchEffect} from "vue";
 import axios from "axios";
 import {useAPI, useRegex} from "../../../stores/store.js";
-import FormField from "./FormField.vue";
+import FormField from "../../common/FormField.vue";
 
 name = "FormUserData"
 
+const emit = defineEmits(['refreshData'])
 const props = defineProps({
   userData: {
     type: Object,
@@ -32,10 +33,33 @@ watchEffect(() => {
 
 const sendUpData = async () => {
   if (isActive) {
-    await axios.patch(api.URL + "/api/users/" + props.userData.id, newData, {headers: {'content-type': 'application/json'}})
+    await axios.patch(api.URL + "/api/users/" + props.userData.id, newData, {
+      withCredentials: true,
+      headers: {'content-type': 'application/json'}
+    })
         .then(function (response) {
-          if (response.status === 200)
-            callback.value = "Данные успешно обновлены"
+          if (response.status === 200) {
+            callback.value = response.data
+
+            axios.get(api.URL + "/api/users/data", {
+              headers: {
+                'authorization': localStorage.getItem("jwt")
+              }
+            }).then(function (response) {
+                  localStorage.setItem("userData", JSON.stringify({
+                    id: response.data.id,
+                    login: response.data.login,
+                    fName: response.data.fname,
+                    lName: response.data.lname,
+                    phoneNumber: response.data.phoneNumber,
+                    mail: response.data.mail,
+                    userLanguages: response.data.userLanguages,
+                    avatar: response.data.avatar,
+                  }))
+                  location.reload()
+                }
+            )
+          }
         }).catch(
             function (error) {
               callback.value = "Произошла ошибка " + error.response.status + " при обновлении данных"
@@ -98,7 +122,7 @@ const sendUpData = async () => {
                         name: 'tel',
                         field: 'Телефон',
                         type: 'tel',
-                        value: '+' + props.userData.phoneNumber,
+                        value: (props.userData.phoneNumber) ? '+' + props.userData.phoneNumber : null,
                         placeholder: 'Введите ваш телефон',
                         regex: regex.regexTel,
                         alert: regex.alertTel
@@ -112,7 +136,7 @@ const sendUpData = async () => {
              class="account__button button">
     </div>
   </form>
-  <div class="reg__text" v-if="callback !== ''"> {{ callback }}</div>
+  <div class="form__text" v-if="callback !== ''"> {{ callback }}</div>
 </template>
 
 <style lang="scss" scoped>
@@ -137,14 +161,6 @@ const sendUpData = async () => {
     margin-bottom: 10px;
   }
 
-  &__field {
-    width: 100%;
-  }
-
-  &__label {
-    padding: 5px 5px;
-  }
-
   &__button {
     background-color: $primaryColor;
     color: #fff;
@@ -152,15 +168,6 @@ const sendUpData = async () => {
     width: fit-content;
     margin: 10px auto 10px auto;
   }
-}
-
-.reg__text {
-  padding: 10px;
-  margin-bottom: 10px;
-  max-width: 450px;
-  text-align: center;
-  border: 2px solid $primaryGrey;
-  border-radius: $radius;
 }
 
 .disabled {
